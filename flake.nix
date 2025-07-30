@@ -7,7 +7,7 @@
     flake-utils.url = "github:numtide/flake-utils";
     rust-overlay.url = "github:oxalica/rust-overlay";
   };
-  outputs = { nixpkgs, nixpkgs-unstable, rust-overlay, flake-utils, ... }:
+  outputs = { self, nixpkgs, nixpkgs-unstable, rust-overlay, flake-utils, ... }:
     let
       systems = flake-utils.lib.eachDefaultSystem (system:
         let
@@ -95,11 +95,20 @@
       inherit (systems) devShells;
 
       templates = {
+        shell = {
+          path = ./templates/shell;
+          description = "Shell simple flake";
+        };
+        python = {
+          path = ./templates/python/simple;
+          description = "Python simple flake";
+        };
         python-shell = {
-          path = ./python/shell;
-          description = "Python shell flake";
+          path = ./templates/python/shell;
+          description = "Python shell & flake";
         };
       };
+      defaultTemplate = self.templates.shell;
     };
 
 }
